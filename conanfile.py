@@ -20,18 +20,18 @@ class UseLATEXConan(ConanFile):
     _source_subfolder = "source_subfolder"
 
     def system_requirements(self):
-        pack_name = None
+        pack_names = []
         os_info = tools.OSInfo()
         if os_info.with_apt:
-            pack_name = "texlive-latex-base"
+            pack_names = ["texlive-latex-base", "imagemagick"]
         elif os_info.with_pacman:
-            pack_name = "texlive-core"
+            pack_names = ["texlive-core", "imagemagick"]
         elif os_info.with_yum:
-            pack_name = "texlive-latex"
+            pack_names = ["texlive-latex", "imagemagick"]
 
-        if pack_name:
+        for package in pack_names:
             installer = tools.SystemPackageTool()
-            installer.install(pack_name)
+            installer.install(package)
 
     def source(self):
         source_url = "https://gitlab.kitware.com/kmorel/UseLATEX"
